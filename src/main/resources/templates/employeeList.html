@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/js/layer/layer.js"></script>
+<link href="/css/basic_layout.css" rel="stylesheet" type="text/css">
+<link href="/css/common_style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/js/common/commonAll.js"></script>
+<script type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="/js/employee/employeeList.js"></script>
+<title>员工列表</title>
+<style>
+	.alt td{ background:black !important;}
+</style>
+</head>
+<body>
+<input type="hidden" value="${msg}" id="msg">
+	<form id="submitForm" name="submitForm" action="" method="post">
+		<input type="hidden" name="ids" value="" id="ids"/>
+		<div id="container">
+			<div class="ui_content">
+				<div class="ui_text_indent">
+					<div id="box_border">
+						<div id="box_top">搜索</div>
+						<div id="box_center">
+							开始时间
+							<input name="beginTime" type="text" value="${beginTime}" autocomplete="off" class="ui_input_txt02" placeholder="" onClick="WdatePicker()">
+							结束时间&nbsp;&nbsp;
+							<input type="text" name="endTime" value="${endTime}" autocomplete="off" class="ui_input_txt02" onClick="WdatePicker()" />
+						</div>
+						<div id="box_bottom">
+							<input type="button" value="查询" class="ui_input_btn01" onclick="search();" /> 
+							<input type="button" value="新增" class="ui_input_btn01" id="addBtn" /> 
+							<input type="button" value="删除" class="ui_input_btn01" onclick="batchDel();" /> 
+							<input type="button" value="导入" class="ui_input_btn01" id="importBtn" />
+							<input type="button" value="导出" class="ui_input_btn01" onclick="exportExcel();" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ui_content">
+				<div class="ui_tb">
+					<table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+						<tr>
+							<th width="30">
+								<input type="checkbox" id="all" onclick="selectOrClearAllCheckbox(this);" />
+							</th>
+							<th>序号</th>
+							<th>编号</th>
+							<th>姓名</th>
+							<th>开始时间</th>
+							<th>结束时间</th>
+							<th>工作状态</th>
+							<th>操作</th>
+						</tr>
+							<#list list as user>
+								<tr>
+									<td><input type="checkbox" name="IDCheck" value="${user.id}" class="acb" /></td>
+									<td>${user_index + 1}</td>
+									<td>${user.id}</td>
+									<td>${user.username}</td>
+									<td>${user.beginTime?string('yyyy-MM-dd')}</td>
+									<td>${user.endTime?string('yyyy-MM-dd')}</td>
+									<td>
+										<#if user.workStatus == 1>
+											已占用
+										<#else>
+											未占用
+										</#if>
+									</td>
+									<td>
+										<a href="/user/editForm?id=${user.id}" class="edit">编辑</a>
+										<a href="/user/delete?ids=${user.id}" onclick="return confirm('确认删除吗？');">删除</a>
+									</td>
+								</tr>
+							</#list>
+					</table>
+				</div>
+				<div class="ui_tb_h30">
+					<div class="ui_flt" style="height: 30px; line-height: 30px;">
+						共有
+						<span class="ui_txt_bold04">90</span>
+						条记录，当前第
+						<span class="ui_txt_bold04">1
+						/
+						9</span>
+						页
+					</div>
+					<div class="ui_frt">
+						<!--    如果是第一页，则只显示下一页、尾页 -->
+						
+							<input type="button" value="首页" class="ui_input_btn01" />
+							<input type="button" value="上一页" class="ui_input_btn01" />
+							<input type="button" value="下一页" class="ui_input_btn01"
+								onclick="jumpNormalPage(2);" />
+							<input type="button" value="尾页" class="ui_input_btn01"
+								onclick="jumpNormalPage(9);" />
+						
+						<!--     如果是最后一页，则只显示首页、上一页 -->
+						
+						转到第<input type="text" id="jumpNumTxt" class="ui_input_txt01" />页
+							 <input type="button" class="ui_input_btn01" value="跳转" onclick="jumpInputPage(9);" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

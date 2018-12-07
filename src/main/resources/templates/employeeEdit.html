@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>编辑员工信息</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/js/layer/layer.js"></script>
+<script type="text/javascript" src="/js/common/commonAll.js"></script>
+<link href="/css/basic_layout.css" rel="stylesheet" type="text/css">
+<link href="/css/common_style.css" rel="stylesheet" type="text/css">
+<script src="/js/My97DatePicker/WdatePicker.js" type="text/javascript" defer="defer"></script>
+</head>
+<body>
+<form id="editForm" name="editForm" action="/user/update" method="post">
+	<div id="container">
+		<div id="nav_links">
+			当前位置：&nbsp;>&nbsp;<span style="color: #1A5CC6;">员工信息编辑</span>
+			<div id="page_close">
+				<a href="javascript:parent.$.fancybox.close();">
+					<img src="/images/common/page_close.png" width="20" height="20" style="vertical-align: text-top;"/>
+				</a>
+			</div>
+		</div>
+		<div class="ui_content">
+			<table  cellspacing="0" cellpadding="0" width="100%" align="left" border="0">
+				<tr>
+					<td class="ui_text_rt">编号：</td>
+					<td class="ui_text_lt">
+						<input type="text" id="id" name="id"  value="${user.id}" readonly class="ui_input_txt02"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui_text_rt">名称：</td>
+					<td class="ui_text_lt">
+						<input type="text" id="username" name="username" value="${user.username}" class="ui_input_txt02"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui_text_rt">开始时间：</td>
+					<td class="ui_text_lt">
+						<input type="text" id="beginTime" name="beginTime" autocomplete="off" value="${user.beginTime?string('yyyy-MM-dd')}" onClick="WdatePicker()" class="ui_input_txt02"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui_text_rt">结束时间：</td>
+					<td class="ui_text_lt">
+						<input type="text" id="endTime" name="endTime" autocomplete="off" value="${user.endTime?string('yyyy-MM-dd')}" onClick="WdatePicker()" class="ui_input_txt02"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui_text_rt">工作状态：</td>
+					<td class="ui_text_lt">
+						<select name="workStatus" id="workStatus" class="ui_select01">
+							<#if user.workStatus == 1>
+								<option value="1" selected="selected">已占用</option>
+								<option value="0">未占用</option>
+							<#else>
+								<option value="1">已占用</option>
+								<option value="0" selected="selected">未占用</option>
+							</#if>
+                        </select>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td class="ui_text_lt">
+						&nbsp;<input id="submitbutton" type="button" value="提交" class="ui_input_btn01"/>
+						&nbsp;<input id="cancelbutton" type="button" value="取消" class="ui_input_btn01"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script>
+    $(document).ready(function() {
+        /*
+         * 提交
+         */
+        $("#submitbutton").click(function() {
+            if(validateData() && validateName()) {
+                $("#editForm").submit();
+            }
+        });
+    });
+</script>
+</body>
+</html>
